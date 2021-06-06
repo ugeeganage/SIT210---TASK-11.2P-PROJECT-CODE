@@ -1,0 +1,29 @@
+// This #include statement was automatically added by the Particle IDE.
+#include <Grove_Temperature_And_Humidity_Sensor.h>
+
+#define DELAY_TIME 30000
+#define DHT_PIN D3
+
+DHT dht(DHT_PIN);
+
+int led = D7;  // The on-board LED
+double humid;
+
+
+void setup() {
+    dht.begin();
+    pinMode(DHT_PIN, INPUT);
+    pinMode(led, OUTPUT);
+}
+
+void loop() {
+    digitalWrite(led, HIGH);   // Turn ON the LED
+    delay(300);
+    humid = dht.getHumidity();
+   
+    Particle.publish("humid_reading", String(humid), PRIVATE);
+    delay(3000);               // Wait for 30 seconds
+    digitalWrite(led, LOW);    // Turn OFF the LED
+    delay(3000);
+
+}
